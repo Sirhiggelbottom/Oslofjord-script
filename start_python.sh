@@ -1,4 +1,5 @@
 #!/bin/bash
+
 check_if_running(){
 	
 	local script_name=$1
@@ -11,17 +12,18 @@ check_if_running(){
 	fi
 }
 
+script_dir="$(dirname "$0")"
+
 script1="Temperatur_varsel.py"
 check_if_running $script1
 if [ $? -eq 0 ]; then
-	/usr/bin/python3 /home/drift/Script/$script1 &
+	/usr/bin/python3 script_dir/$script1 &
 	echo "Started $script1."
 fi
 
 script2="Sjekk_for_oppdateringer.py"
 check_if_running $script2
 if [ $? -eq 0 ]; then
-	/usr/bin/python3 /home/drift/Script/$script2 & 
+	/usr/bin/python3 script_dir/$script2 & 
 	echo "Started $script2."
 fi
-
