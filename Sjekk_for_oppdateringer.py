@@ -13,6 +13,7 @@ config.read('config.ini')
 
 TELEGRAM_BOT_TOKEN = config['telegram']['bot_token']
 TELEGRAM_CHAT_ID = config['telegram']['chat_id']
+PI_NAME = config['telegram']['pi_name']
 
 def check_updates():
     current_time = datetime.datetime.now().time()
@@ -29,7 +30,7 @@ def check_updates():
                 if "upgraded," in line or "newly installed, " in line or "additional disk space" in line:
                     upgraded_files = line
             
-            send_telegram_message("Varsel fra Oslofjord Pi:\n" + upgraded_files)
+            send_telegram_message(f"Varsel fra {PI_NAME}:\n" + upgraded_files)
 
     else:
         print("Current time is outside the defined time range.")
@@ -41,7 +42,7 @@ def send_telegram_message(message):
     if response.status_code != 200:
         print(f"Failed to send message: {response.text}")
         
-send_telegram_message("Varsel fra Oslofjord:\nVarsling om oppdateringer er aktiv")
+send_telegram_message(f"Varsel fra {PI_NAME}:\nVarsling om oppdateringer er aktiv")
 
 if __name__ == "__main__":
     schedule.every().day.at("08:00").do(check_updates)

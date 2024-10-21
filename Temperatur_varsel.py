@@ -14,6 +14,7 @@ config.read('config.ini')
 
 TELEGRAM_BOT_TOKEN = config['telegram']['bot_token']
 TELEGRAM_CHAT_ID = config['telegram']['chat_id']
+PI_NAME = config['telegram']['pi_name']
 
 def send_telegram_message(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
@@ -47,7 +48,7 @@ def check_conditions():
                 start_time = time.time()  # start timer
 
             elif (time.time() - start_time) >= DURATION_THRESHOLD:
-                message = f"Varsel fra Oslofjord:\n CPU Temp: {cpu_temp}C,\n CPU Forbruk: {cpu_usage}%,\n Memory Forbruk: {memory_usage}%"
+                message = f"Varsel fra {PI_NAME}:\n CPU Temp: {cpu_temp}C,\n CPU Forbruk: {cpu_usage}%,\n Memory Forbruk: {memory_usage}%"
                 send_telegram_message(message)
                 start_time = None  # reset timer
         else:
@@ -55,7 +56,7 @@ def check_conditions():
 
         time.sleep(1)  # Check every second
         
-send_telegram_message("Varsel fra Oslofjord:\nTemperatur / forbruk overvåkning aktiv")    
+send_telegram_message(f"Varsel fra {PI_NAME}:\nTemperatur / forbruk overvåkning aktiv")    
 
 if __name__ == "__main__":
     check_conditions()
