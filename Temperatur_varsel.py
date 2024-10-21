@@ -15,8 +15,6 @@ config.read('config.ini')
 TELEGRAM_BOT_TOKEN = config['telegram']['bot_token']
 TELEGRAM_CHAT_ID = config['telegram']['chat_id']
 
-print(TELEGRAM_BOT_TOKEN, " ", TELEGRAM_CHAT_ID)
-
 def send_telegram_message(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     data = {
@@ -26,8 +24,6 @@ def send_telegram_message(message):
     response = requests.post(url, data=data)
     if response.status_code != 200:
         print(f"Failed to send message: {response.text}")
-    else:
-        print("Message sent:", response.text)
 
 def check_conditions():
     start_time = None
