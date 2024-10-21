@@ -23,7 +23,7 @@ def check_updates():
             
             #send_telegram_message("Varsel fra Oslofjord:\n" + result.stdout.split('\n')[-2])  # Sending the line that contains update info
 
-            upgradeable_files = subprocess.run(['sudo', 'apt', 'upgrade', '-y'], capture_output=True, text=True)
+            upgradeable_files = subprocess.run(['sudo', 'apt', 'dist-upgrade', '-y'], capture_output=True, text=True)
 
             for line in upgradeable_files.stdout.splitlines():
                 if "upgraded," in line or "newly installed, " in line or "additional disk space" in line:
