@@ -24,7 +24,7 @@ def send_telegram_message(message):
         print(f"Failed to send message: {response.text}")
 
 def run_terminal_commands_in_background(command, path):
-    process = subprocess.Popen(command, cwd=path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.run(command, cwd=path, stdin=None, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     return process
 
 server_process = run_terminal_commands_in_background(server_command, server_path)
