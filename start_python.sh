@@ -34,3 +34,10 @@ if [ $? -eq 0 ]; then
 	/usr/bin/python3 "$script_dir"/$script3 & 
 	echo "Started $script3."
 fi
+
+script4="start_client.py"
+check_if_running $script4
+if [ $? -eq 0 ]; then
+	/usr/bin/python3 "$script_dir"/$script4 & 
+	echo "Started $script4."
+fi
