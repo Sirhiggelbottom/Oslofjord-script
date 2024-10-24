@@ -29,7 +29,7 @@ def check_updates():
             
 
             for line in upgradeable_files.stdout.splitlines():
-                if "upgraded," in line or "newly installed, " in line:
+                if "upgraded," in line and "newly installed, " in line:
                     upgraded_files = upgradeable_files.stdout.split('\n')[-2]
             
             send_telegram_message(f"Varsel fra {PI_NAME}:\n" + upgraded_files)
