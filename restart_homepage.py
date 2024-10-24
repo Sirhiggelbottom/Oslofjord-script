@@ -29,14 +29,14 @@ def restartPorts():
             process_name = columns[0]
             
             if process_name == "node" or process_name == "python3":
-                pid = columns[1]
+                pid = int(columns[1])
                 port = int(columns[8].split(":")[1].split(" ")[0])
 
                 pids.append(pid)
                 ports.append(port)
 
         for pID in pids:
-            subprocess.run(f"kill {pID}")
+            subprocess.run(f"kill {pID}", shell=True)
 
         for newPort in ports:
             if newPort == 3000:
