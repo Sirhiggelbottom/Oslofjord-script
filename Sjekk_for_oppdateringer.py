@@ -26,9 +26,11 @@ def check_updates():
 
             upgradeable_files = subprocess.run(['sudo', 'apt', 'dist-upgrade', '-y'], capture_output=True, text=True)
 
+            
+
             for line in upgradeable_files.stdout.splitlines():
-                if "upgraded," in line or "newly installed, " in line or "additional disk space" in line:
-                    upgraded_files = line
+                if "upgraded," in line or "newly installed, " in line:
+                    upgraded_files = upgradeable_files.stdout.split('\n')[-2]
             
             send_telegram_message(f"Varsel fra {PI_NAME}:\n" + upgraded_files)
 
