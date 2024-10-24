@@ -30,9 +30,9 @@ try:
     server_err = server_process.stderr
 
     if server_err:
-        send_telegram_message(f"Varsel fra: {PI_NAME}\nError, couldn't start the server.\nReason: {server_err.decode('utf-8')}")
+        send_telegram_message(f"Varsel fra: {PI_NAME}\nError, couldn't start the server.\nReason: {server_err}")
     else:
-        send_telegram_message(f"Varsel fra: {PI_NAME}\nOslofjord-homepage startet\nStatus server:\n{server_log.decode('utf-8')}")
+        send_telegram_message(f"Varsel fra: {PI_NAME}\nOslofjord-homepage startet\nStatus server:\n{server_log}")
     
 except Exception as e:
     send_telegram_message(f"Varsel fra: {PI_NAME}\nException, reason:\n {e}")

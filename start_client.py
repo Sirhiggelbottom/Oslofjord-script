@@ -27,5 +27,8 @@ try:
     result = client_process.stdout
     err = client_process.stderr
 
+    send_telegram_message(f"client process output:\nResult: {result}\nError: {err}")
+
 except Exception as e:
    print(f"Error: {e}")
+   send_telegram_message(f"Error starting client.js\nReason: {e}")
