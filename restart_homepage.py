@@ -126,9 +126,10 @@ if __name__ == "__main__":
 
     if args.both:
         restartPorts()
-    elif args.port is None:
+    
+    if args.both is None and args.port is None:
         port = input("Please specify to port to check: ")
-    else:
+        restart(port)
+    elif args.both is None and args.port is not None:
         port = args.port
-        
-    restart(port)
+        restart(port)
