@@ -120,11 +120,11 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Restarting process if the process uses the specified port')
     parser.add_argument('--port', type=int, help='The port to check for running processes')
-    parser.add_argument('--both', type=str, help='Restart both servers')
+    parser.add_argument('--both', type=bool, help='Restart both servers')
 
     args = parser.parse_args()
 
-    if args.both is not None:
+    if args.both:
         restartPorts()
     elif args.port is None:
         port = input("Please specify to port to check: ")
