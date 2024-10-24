@@ -25,14 +25,13 @@ def restart(port):
             columns = line.split()
 
             if len(columns) < 2:
-                print("Error couldn't find the PID")
                 return
             else:
                 pid = columns[1]
 
 
         if pid == None:
-            print("Error: couldn't find the PID")
+            print("Error, couldn't find the PID")
             return
         
         print(f"Stopping process: {pid}")
@@ -46,10 +45,10 @@ def restart(port):
             try:
 
                 print("Restarting server")
-                subprocess.run(f"python3 run_servers.py", shell=True)
+                subprocess.run(f"python3 start_backend.py", shell=True)
 
             except Exception as e:
-                print(f"Error, couldn't restart server.\nReason: {e}")
+                print(f"Error, kunne ikke restarte Backend server.\nGrunn: {e}")
 
 
         elif new_port == 9999:
@@ -57,9 +56,9 @@ def restart(port):
             try:
 
                 print("Restarting client")
-                subprocess.run(f"python3 start_client.py", shell=True)
+                subprocess.run(f"python3 start_host.py", shell=True)
             except Exception as e:
-                print(f"Error, couldn't restart client.\nReason: {e}")               
+                print(f"Error, kunne ikke restarte Host server.\nGrunn: {e}")               
 
             
     except Exception as e:

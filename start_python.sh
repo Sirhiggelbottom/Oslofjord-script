@@ -28,14 +28,14 @@ if [ $? -eq 0 ]; then
 	echo "Started $script2."
 fi
 
-script3="run_servers.py"
+script3="start_backend.py"
 check_if_running $script3
 if [ $? -eq 0 ]; then
 	/usr/bin/python3 "$script_dir"/$script3 & 
 	echo "Started $script3."
 fi
 
-script4="start_client.py"
+script4="start_host.py"
 check_if_running $script4
 if [ $? -eq 0 ]; then
 	/usr/bin/python3 "$script_dir"/$script4 & 

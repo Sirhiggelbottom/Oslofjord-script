@@ -2,6 +2,7 @@ import subprocess
 import os
 import configparser
 import requests
+import time
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -22,13 +23,18 @@ client_command = ['python3', '-m', 'http.server', '9999']
 
 try:
 
-    client_process = subprocess.run(client_command, cwd=client_path, capture_output=True, text=True, check=True)
+    client_process = subprocess.Popen(client_command, cwd=client_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-    result = client_process.stdout
-    err = client_process.stderr
+    time.sleep(2)
 
-    send_telegram_message(f"client process output:\nResult: {result}\nError: {err}")
+    return_code = client_process.poll()
+
+    if return_code is not None:
+        err = client_process.stderr.read()
+        send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke starte Host server.\nGrunn:{err}")
+    else:
+        send_telegram_message(f"Varsel fra {PI_NAME}:\nHost server startet")
 
 except Exception as e:
    print(f"Error: {e}")
-   send_telegram_message(f"Error starting client.js\nReason: {e}")
+   send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke starte Host server.\nGrunn:{e}")

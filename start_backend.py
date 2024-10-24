@@ -2,6 +2,7 @@ import subprocess
 import os
 import configparser
 import requests
+import time
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -10,9 +11,10 @@ TELEGRAM_BOT_TOKEN = config['telegram']['bot_token']
 TELEGRAM_CHAT_ID = config['telegram']['chat_id']
 PI_NAME = config['telegram']['pi_name']
 
-server_path = os.path.expanduser('~/github/Oslofjord-homepage/node/')
 
+server_path = os.path.expanduser('~/github/Oslofjord-homepage/node/')
 server_command = ['node', 'server.js']
+
 
 def send_telegram_message(message):
     url = f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage'
@@ -24,15 +26,17 @@ def send_telegram_message(message):
 
 try:
 
-    server_process = subprocess.run(server_command, cwd=server_path, capture_output=True, text=True, check=True)
+    server_process = subprocess.Popen(server_command, cwd=server_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-    server_log = server_process.stdout
-    server_err = server_process.stderr
+    time.sleep(2)
 
-    if server_err:
-        send_telegram_message(f"Varsel fra: {PI_NAME}\nError, couldn't start the server.\nReason: {server_err}")
+    return_code = server_process.poll()
+
+    if return_code is not None:
+        err = server_process.stderr.read()
+        send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke starte Backend server.\nGrunn:{err}")
     else:
-        send_telegram_message(f"Varsel fra: {PI_NAME}\nOslofjord-homepage startet\nStatus server:\n{server_log}")
+        send_telegram_message(f"Varsel fra {PI_NAME}:\nBackend server startet")
     
 except Exception as e:
     send_telegram_message(f"Varsel fra: {PI_NAME}\nException, reason:\n {e}")
