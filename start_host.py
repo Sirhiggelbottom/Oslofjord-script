@@ -18,22 +18,47 @@ def send_telegram_message(message):
     if response.status_code != 200:
         print(f"Failed to send message: {response.text}")
 
-client_path = os.path.expanduser('~/github/Oslofjord-homepage/')
+port_command = ['lsof', '-i', ':9999']
+
+client_path = os.path.expanduser('~/Documents/github/Oslofjord-homepage/')
 client_command = ['python3', '-m', 'http.server', '9999']
+
+restart_path = os.path.expanduser('~/Documents/github/Oslofjord-script/')
+restart_command = ['python3', 'restart_homepage.py', '--port 9999']
 
 try:
 
-    client_process = subprocess.Popen(client_command, cwd=client_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    check_port_process = subprocess.run(port_command, capture_output=True, text=True)
 
-    time.sleep(2)
+    port_result = check_port_process.stdout
 
-    return_code = client_process.poll()
+    if port_result is "":
+        
+        client_process = subprocess.Popen(client_command, cwd=client_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-    if return_code is not None:
-        err = client_process.stderr.read()
-        send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke starte Host server.\nGrunn:{err}")
+        time.sleep(2)
+
+        return_code = client_process.poll()
+
+        if return_code is not None:
+            err = client_process.stderr.read()
+            send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke starte Host server.\nGrunn:{err}")
+        else:
+            send_telegram_message(f"Varsel fra {PI_NAME}:\nHost server startet")
+
     else:
-        send_telegram_message(f"Varsel fra {PI_NAME}:\nHost server startet")
+        
+        restart_host_process = subprocess.Popen(restart_command, cwd=restart_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+        time.sleep(2)
+
+        return_code = restart_host_process.poll()
+
+        if return_code is not None:
+            err = restart_host_process.stderr.read()
+            send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke restarte Host server.\nGrunn:{err}")
+        else:
+            send_telegram_message(f"Varsel fra {PI_NAME}:\nHost server restartet")
 
 except Exception as e:
    print(f"Error: {e}")
