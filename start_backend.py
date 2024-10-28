@@ -45,7 +45,8 @@ try:
 
         if return_code is not None:
             err = server_process.stderr.read()
-            send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke starte Backend server.\nGrunn:{err}")
+            if err != "":
+                send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke starte Backend server.\nGrunn:{err}")
         else:
             send_telegram_message(f"Varsel fra {PI_NAME}:\nBackend server startet")
 
@@ -59,7 +60,8 @@ try:
 
         if return_code is not None:
             err = restart_backend_process.stderr.read()
-            send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke restarte Backend server.\nGrunn:{err}")
+            if err != "":
+                send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke restarte Backend server.\nGrunn:{err}")
     
 except Exception as e:
     send_telegram_message(f"Varsel fra: {PI_NAME}\nException, reason:\n {e}")

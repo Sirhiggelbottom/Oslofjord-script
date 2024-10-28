@@ -43,7 +43,8 @@ try:
 
         if return_code is not None:
             err = client_process.stderr.read()
-            send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke starte Host server.\nGrunn:{err}")
+            if err != "":
+                send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke starte Host server.\nGrunn:{err}")
         else:
             send_telegram_message(f"Varsel fra {PI_NAME}:\nHost server startet")
 
@@ -57,7 +58,8 @@ try:
 
         if return_code is not None:
             err = restart_host_process.stderr.read()
-            send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke restarte Host server.\nGrunn:{err}")
+            if err != "":
+                send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke restarte Host server.\nGrunn:{err}")
 
 except Exception as e:
    print(f"Error: {e}")
