@@ -57,8 +57,6 @@ try:
         if return_code is not None:
             err = restart_host_process.stderr.read()
             send_telegram_message(f"Varsel fra {PI_NAME}:\nError, kunne ikke restarte Host server.\nGrunn:{err}")
-        else:
-            send_telegram_message(f"Varsel fra {PI_NAME}:\nHost server restartet")
 
 except Exception as e:
    print(f"Error: {e}")
