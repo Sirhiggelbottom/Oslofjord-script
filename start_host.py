@@ -24,7 +24,7 @@ client_path = os.path.expanduser('~/Documents/github/Oslofjord-homepage/')
 client_command = ['python3', '-m', 'http.server', '9999']
 
 restart_path = os.path.expanduser('~/Documents/github/Oslofjord-script/')
-restart_command = ['python3', 'restart_homepage.py', '--port 9999']
+restart_command = ['python3', 'restart_homepage.py', '--port', '9999']
 
 try:
 

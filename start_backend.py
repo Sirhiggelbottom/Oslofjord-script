@@ -17,7 +17,7 @@ server_path = os.path.expanduser('~/Documents/github/Oslofjord-homepage/node/')
 server_command = ['node', 'server.js']
 
 restart_path = os.path.expanduser('~/Documents/github/Oslofjord-script/')
-restart_command = ['python3', 'restart_homepage.py', '--port 3000']
+restart_command = ['python3', 'restart_homepage.py', '--port', '3000']
 
 
 def send_telegram_message(message):
