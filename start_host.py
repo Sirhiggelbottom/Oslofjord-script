@@ -32,7 +32,7 @@ try:
 
     port_result = check_port_process.stdout
 
-    if port_result is "":
+    if port_result == "":
         
         client_process = subprocess.Popen(client_command, cwd=client_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
@@ -47,7 +47,7 @@ try:
             send_telegram_message(f"Varsel fra {PI_NAME}:\nHost server startet")
 
     else:
-        
+
         restart_host_process = subprocess.Popen(restart_command, cwd=restart_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         time.sleep(2)
