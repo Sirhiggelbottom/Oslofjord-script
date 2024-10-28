@@ -2,6 +2,6 @@
 Version=1.1
 Name=Start Raspberry system
 Comment=Starter varslingssystem og starter servere for hjemmeside
-Exec=bash -c "cd ~/Documents/github/Oslofjord-script && ./start_python.sh && zenity --info --text='Script ran successfully! Here is the output:' --filename=/tmp/script_output.log --ok-label='Close' || zenity --error --text='An error occurred. Here is the output:' --filename=/tmp/script_output.log --ok-label='Close'"
+Exec=bash -c "cd ~/Documents/github/Oslofjord-homepage/node && pm2 start ecosystem.config.js && zenity --info --text='Script ran successfully! Here is the output:' --filename=/tmp/script_output.log --ok-label='Close' || zenity --error --text='An error occurred. Here is the output:' --filename=/tmp/script_output.log --ok-label='Close'"
 Terminal=false
 Type=Application
