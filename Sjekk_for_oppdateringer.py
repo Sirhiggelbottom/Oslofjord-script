@@ -20,7 +20,7 @@ def check_updates():
     
     if start_time <= current_time <= end_time:
         result = subprocess.run(['sudo', 'apt', 'update'], capture_output=True, text=True)
-        if "packages can be upgraded" in result.stdout:
+        if "can be upgraded" in result.stdout:
             
             #send_telegram_message("Varsel fra Oslofjord:\n" + result.stdout.split('\n')[-2])  # Sending the line that contains update info
 
