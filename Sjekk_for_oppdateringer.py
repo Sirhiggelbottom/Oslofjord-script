@@ -47,6 +47,7 @@ def send_telegram_message(message):
 send_telegram_message(f"Varsel fra {PI_NAME}:\nVarsling om oppdateringer er aktiv")
 
 if __name__ == "__main__":
+    check_updates()
     schedule.every().day.at("08:00").do(check_updates)
 
     while True:
