@@ -14,7 +14,8 @@ PI_NAME = config['telegram']['pi_name']
 port_command = ['lsof', '-i', ':3000']
 
 server_path = os.path.expanduser('~/Documents/github/Oslofjord-homepage/node/')
-server_command = ['node', 'server.js']
+#server_command = ['node', 'server.js']
+server_command = ['pm2', 'start', 'server.js', '--name', 'Backend-server']
 
 restart_path = os.path.expanduser('~/Documents/github/Oslofjord-script/')
 restart_command = ['python3', 'restart_homepage.py', '--port', '3000']

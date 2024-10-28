@@ -21,7 +21,8 @@ def send_telegram_message(message):
 port_command = ['lsof', '-i', ':9999']
 
 client_path = os.path.expanduser('~/Documents/github/Oslofjord-homepage/')
-client_command = ['python3', '-m', 'http.server', '9999']
+#client_command = ['python3', '-m', 'http.server', '9999']
+client_command = ['pm2', 'start', "python3 -m http.server 9999", '--name', 'Client-server']
 
 restart_path = os.path.expanduser('~/Documents/github/Oslofjord-script/')
 restart_command = ['python3', 'restart_homepage.py', '--port', '9999']
