@@ -1,14 +1,19 @@
 import subprocess
+import requests
 import time
 import datetime
 import schedule
-import logging
+import configparser
 
 start_time = datetime.time(8, 0)
 end_time = datetime.time(17, 0)
 
-log_file = "Update_log.txt"
-logging.basicConfig(filename=log_file, level=logging.INFO, format="%(asctime)s - %(message)s")
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+TELEGRAM_BOT_TOKEN = config['telegram']['bot_token']
+TELEGRAM_CHAT_ID = config['telegram']['chat_id']
+PI_NAME = config['telegram']['pi_name']
 
 def check_updates():
     current_time = datetime.datetime.now().time()
@@ -16,6 +21,8 @@ def check_updates():
     if start_time <= current_time <= end_time:
         result = subprocess.run(['sudo', 'apt', 'update'], capture_output=True, text=True)
         if "can be upgraded" in result.stdout:
+            
+            #send_telegram_message("Varsel fra Oslofjord:\n" + result.stdout.split('\n')[-2])  # Sending the line that contains update info
 
             upgradeable_files = subprocess.run(['sudo', 'apt', 'dist-upgrade', '-y'], capture_output=True, text=True)
 
@@ -24,10 +31,20 @@ def check_updates():
             for line in upgradeable_files.stdout.splitlines():
                 if "upgraded," in line and "newly installed, " in line:
                     upgraded_files = line
-                    logging.info(f"Updated Packages: {upgraded_files}")
+            
+            send_telegram_message(f"Varsel fra {PI_NAME}:\n" + upgraded_files)
 
     else:
         print("Current time is outside the defined time range.")
+
+def send_telegram_message(message):
+    url = f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage'
+    data = {'chat_id': TELEGRAM_CHAT_ID, 'text': message}
+    response = requests.post(url, data=data)
+    if response.status_code != 200:
+        print(f"Failed to send message: {response.text}")
+        
+send_telegram_message(f"Varsel fra {PI_NAME}:\nVarsling om oppdateringer er aktiv")
 
 if __name__ == "__main__":
     check_updates()
