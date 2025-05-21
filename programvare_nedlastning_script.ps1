@@ -58,10 +58,23 @@ foreach($fileName in $downloads.Keys){
 
         try {
             Invoke-WebRequest -Uri $url -OutFile $destinationPath
-            Write-Host "$fileName Downloaded.`n"
+            
+            if($fileName -like "*.exe" || $fileName -like "*.msi"){
+                Write-Host "$fileName Downloaded."
+                try {
+                    Start-Process -FilePath $destinationPath -Wait
+                    Write-Host "$fileName Installed.`n"
+                }
+                catch {
+                    Write-Host "Error, couldn't start the install wizard because: $($_.Exception.Message)`n" -ForegroundColor Red
+                }
+            } else {
+                Write-Host "$fileName was Downloaded, but needs to be installed manually."
+            }
+            
         }
         catch {
-            Write-Host "Error, Couldn't download "$fileName" because: $($_.Exception.Message)" -ForegroundColor Red
+            Write-Host "Error, Couldn't download "$fileName" because: $($_.Exception.Message)`n" -ForegroundColor Red
         }
         
     }
