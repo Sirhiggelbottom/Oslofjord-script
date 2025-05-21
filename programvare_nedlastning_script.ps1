@@ -67,4 +67,6 @@ foreach($fileName in $downloads.Keys){
     }
 }
 
-Write-Host "Finished"
+Write-Host "Finished, Powershell will now close in 10 seconds"
+
+Start-Sleep -Seconds 10
